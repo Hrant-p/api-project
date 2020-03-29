@@ -58,7 +58,7 @@ Route::resource('users', 'User\UserController', [
  * Transactions
  */
 
-Route::resource('tarnsactions', 'Transaction\TransactionController', [
+Route::resource('transactions', 'Transaction\TransactionController', [
     'only' => [ 'index', 'show' ]
 ]);
 

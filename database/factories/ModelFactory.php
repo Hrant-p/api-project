@@ -4,6 +4,8 @@
 
 use App\Category;
 use App\Product;
+use App\Seller;
+use App\Transaction;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -34,9 +36,11 @@ $factory->define(User::class, function (Faker $faker) {
 });
 
 $factory->define(Category::class, function (Faker $faker) {
+    $description = $faker->paragraph(3, true);
+
     return [
         'name' => $faker->word,
-        'description' => $faker->paragraph(1),
+        'description' => $description,
     ];
 });
 
@@ -51,14 +55,12 @@ $factory->define(Product::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(Product::class, function (Faker $faker) {
+$factory->define(Transaction::class, function (Faker $faker) {
     $seller = Seller::has('products')->get()->random();
     $buyer = User::all()->except($seller->id)->random();
-
     return [
         'quantity' => $faker->numberBetween(1, 3),
-        'buyer_id' => $buyer->getQueueableIds(),
+        'buyer_id' => $buyer->getQueueableId(),
         'product_id' => $seller->products->random()->id,
-
     ];
 });
